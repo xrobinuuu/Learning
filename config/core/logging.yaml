@@ -1,0 +1,50 @@
+disable_existing_loggers: false
+formatters:
+  colored:
+    (): !!python/name:base.LogConfiger ''
+    datefmt: '%Y-%m-%d %H:%M:%S'
+    format: '%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s'
+  default:
+    datefmt: '%Y-%m-%d %H:%M:%S'
+    format: '%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s'
+handlers:
+  email_handler:
+    class: logging.handlers.SMTPHandler
+    credentials: !!python/tuple
+    - your_email@example.com
+    - your_password
+    formatter: default
+    fromaddr: your_email@example.com
+    level: ERROR
+    mailhost: !!python/tuple
+    - smtp.example.com
+    - 587
+    secure: !!python/tuple []
+    subject: Application Error
+    toaddrs:
+    - recipient@example.com
+  file_handler:
+    backupCount: 5
+    class: logging.handlers.RotatingFileHandler
+    encoding: utf8
+    filename: C:/Documents/Learning/logs/logging.log
+    formatter: default
+    level: INFO
+    maxBytes: 5242880
+  terminal:
+    class: logging.StreamHandler
+    formatter: colored
+    level: DEBUG
+loggers:
+  ? ''
+  : handlers:
+    - terminal
+    - file_handler
+    level: DEBUG
+    propagate: false
+  debug:
+    handlers:
+    - terminal
+    level: DEBUG
+    propagate: false
+version: 1
